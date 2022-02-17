@@ -1,53 +1,20 @@
-import React,{useState} from 'react';
-
+import React, { useState } from 'react';
+import About from './About';
+import { useSpeechSynthesis } from 'react-speech-kit';
 
 const Home = () => {
-const [input,setInput]= useState('')
-const  [list,setList]=useState([])
 
+  const [value, setValue] = useState('');
+  const { speak } = useSpeechSynthesis();
+  
 
-const  handleAdd=(e)=>{
-  e.preventDefault()
-  setList([...list,input])
-  setInput('')
-}
+  return <div className='container  py-5 mt-5 jumbotron'>
 
-const  deleteHandle=(id)=>{
-setList((old)=>{
-  return old.filter((cElemnet,index)=>{
-    return index !==id
-  })
-})
-}
-  return <div className='container  py-5 mt-5'>
-
-<div className='row'>
-  <div className='col-sm-8'>
-  <form className='jumbotron'>
-    <input   placeholder='enter item you wanna to add ina list' value={input} onChange={(e)=>setInput(e.target.value)} className='form-control'/>
-    <button className='btn btn-outline-info mt-4' onClick={handleAdd}>ADD Item</button>
-  </form>
-  </div>
- {/*  */}
-
- <div className='col-sm-4'>
-<ol>
-  {list.map((item,index)=>{
-    return (
-      <> 
-      <pre>
-      <li>{item }          <button className='btn btn-danger' onClick={()=>deleteHandle(index)}>Delete</button></li>         <hr/>
-
-      </pre>
-      
-      </>
-
-    )
- 
-  })}
-</ol>
- </div>
-</div>
+<textarea rows={10} cols={40}
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+      /><br />
+      <button onClick={() => speak({ text: value })} className='btn btn-info w-50'>Speak</button>
 
 
   </div>;
